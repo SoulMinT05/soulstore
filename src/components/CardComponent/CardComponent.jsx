@@ -1,9 +1,17 @@
-import React from 'react'
-import { StyleNameProduct, WrapperCardStyle, WrapperDiscountText, WrapperPriceText, WrapperReportText, WrapperStyleTextSell } from './style'
-import { StarFilled } from '@ant-design/icons'
-import logo from '../../assets/images/logo.png'
+import React from 'react';
+import {
+    StyleNameProduct,
+    WrapperCardStyle,
+    WrapperDiscountText,
+    WrapperPriceText,
+    WrapperReportText,
+    WrapperStyleTextSell,
+} from './style';
+import { StarFilled } from '@ant-design/icons';
+import logo from '../../assets/images/logo.png';
 
-const CardComponent = () => {
+const CardComponent = (props) => {
+    const { countInStock, description, image, name, price, rating, type, sold, discount } = props;
     return (
         <WrapperCardStyle
             hoverable
@@ -20,24 +28,23 @@ const CardComponent = () => {
                     position: 'absolute',
                     top: -1,
                     left: -1,
-                    borderTopLeftRadius: '3px'
+                    borderTopLeftRadius: '3px',
                 }}
+                alt=""
             />
-            <StyleNameProduct>Iphone</StyleNameProduct>
+            <StyleNameProduct>{name}</StyleNameProduct>
             <WrapperReportText>
                 <span style={{ marginRight: '4px' }}>
-                    <span>4.96 </span> <StarFilled style={{ fontSize: '12px', color: 'rgb(253, 216, 54)' }} />
+                    <span>{rating} </span> <StarFilled style={{ fontSize: '12px', color: 'rgb(253, 216, 54)' }} />
                 </span>
-                <WrapperStyleTextSell> | Da ban 1000+</WrapperStyleTextSell>
+                <WrapperStyleTextSell> | Sold {sold || 1000}+</WrapperStyleTextSell>
             </WrapperReportText>
             <WrapperPriceText>
-                <span style={{ marginRight: '8px' }}>1.000.000d</span>
-                <WrapperDiscountText>
-                    -5%
-                </WrapperDiscountText>
+                <span style={{ marginRight: '8px' }}>{price}d</span>
+                <WrapperDiscountText>{discount || 5}%</WrapperDiscountText>
             </WrapperPriceText>
         </WrapperCardStyle>
-    )
-}
+    );
+};
 
-export default CardComponent
+export default CardComponent;
