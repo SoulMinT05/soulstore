@@ -1,0 +1,35 @@
+.profile__page {
+    width: 1270px;
+    margin: 0 auto;
+    height: 500px;
+    h1 {
+        color: #000;
+        font-size: 18px;
+        margin: 4px 0;
+    }
+    .wrapper__content {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ccc;
+        width: 600px;
+        margin: 0 auto;
+        padding: 30px;
+        border-radius: 10px;
+        gap: 30px;
+
+        .wrapper__input {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            label {
+                color: #000;
+                font-size: 12px;
+                line-height: 16px;
+                font-weight: 600;
+                width: 60px;
+                text-align: left;
+            }
+        }
+    }
+}
