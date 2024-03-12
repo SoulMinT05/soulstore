@@ -1,6 +1,6 @@
 import { Button, Checkbox, Form, Input, Modal } from 'antd';
 import { WrapperHeader, WrapperUploadFile } from './style';
-import { PlusCircleFilled } from '@ant-design/icons';
+import { PlusCircleFilled, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import TableComponent from '../TableComponent/TableComponent';
 import { useEffect, useState } from 'react';
 import InputComponent from '../InputComponent/InputComponent';
@@ -9,6 +9,7 @@ import * as ProductService from '../../services/ProductService';
 import { useMutationHooks } from '../../hooks/useMutationHook';
 import Loading from '../LoadingComponent/Loading';
 import * as message from '../../components/Message/Message';
+import { useQuery } from '@tanstack/react-query';
 
 function AdminProduct() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +29,55 @@ function AdminProduct() {
         const res = ProductService.createProduct({ name, price, description, rating, image, type, countInStock });
         return res;
     });
+    const getAllProducts = async () => {
+        const res = await ProductService.getAllProduct();
+        return res;
+    };
+
     const { data, isLoading, isSuccess, isError } = mutation;
+    const { isLoading: isLoadingProducts, data: products } = useQuery({
+        queryKey: ['products'],
+        queryFn: getAllProducts,
+    });
+    const renderAction = () => {
+        return (
+            <div>
+                <DeleteOutlined style={{ fontSize: '20px', color: 'red', cursor: 'pointer' }} />
+                <EditOutlined style={{ fontSize: '20px', color: 'green', cursor: 'pointer' }} />
+            </div>
+        );
+    };
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            render: (text) => <a>{text}</a>,
+        },
+        {
+            title: 'Price',
+            dataIndex: 'price',
+        },
+        {
+            title: 'Rating',
+            dataIndex: 'rating',
+        },
+        {
+            title: 'Type',
+            dataIndex: 'type',
+        },
+        {
+            title: 'Action',
+            dataIndex: 'action',
+            render: renderAction,
+        },
+    ];
+
+    const dataTable =
+        products?.data?.length &&
+        products?.data?.map((product) => {
+            return { ...product, key: product._id };
+        });
+
     useEffect(() => {
         if (isSuccess && data?.status === 'OK') {
             message.success();
@@ -92,7 +141,7 @@ function AdminProduct() {
                 </Button>
             </div>
             <div style={{ marginTop: '20px' }}>
-                <TableComponent />
+                <TableComponent columns={columns} isLoading={isLoadingProducts} data={dataTable} />
             </div>
             <Modal title="Create product" open={isModalOpen} onCancel={handleCancel} footer={null}>
                 <Loading isLoading={isLoading}>
