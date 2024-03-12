@@ -1,6 +1,7 @@
 import { Button } from 'antd';
 import { WrapperHeader } from './style';
 import { PlusCircleFilled } from '@ant-design/icons';
+import TableComponent from '../TableComponent/TableComponent';
 
 function AdminUser() {
     return (
@@ -11,6 +12,9 @@ function AdminUser() {
                     Add User
                     <PlusCircleFilled style={{ fontSize: '24px' }} />
                 </Button>
+            </div>
+            <div style={{ marginTop: '20px' }}>
+                <TableComponent />
             </div>
         </div>
     );
